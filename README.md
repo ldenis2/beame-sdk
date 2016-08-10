@@ -20,6 +20,7 @@ _The Beame SDK provides tools that allow you to create credentials to identify m
  - [Easy Installation Instructions](#easy-installation-instructions)
  - [Getting Started - Mac](#getting-started---mac)
  - [Getting Started - Windows](#getting-started---windows)
+ - [Quicl Start](#get-started-in-minutes)
  - [High Level Architecture](#high-level-architecture)
  - [Beame Network Infrastructure](#beame-network-infrastructure)
  - [Custom Provisioning Workflow](#custom-provisioning-workflow)
@@ -66,12 +67,31 @@ Our extended demo ([see it here](#running-test-server)) has two features - chat,
 
 ***
 ## Getting Started - Mac 
+First ensure that your bash version is 4.3 or higher (`echo $BASH_VERSION`). If not - upgrade it. 
+Take care to replace 4.3.46 from snippets below by your new bash version: 
+```
+brew update && brew install bash
+Add new shell to available shells:
+sudo bash -c 'echo /usr/local/Cellar/bash/4.3.46/bin/bash >> /etc/shells'
+```
+Change to the new shell: 
+`chsh -s /usr/local/Cellar/bash/4.3.46/bin/bash`
 
- - Install the Beame SDK by running `npm install -g beame-sdk` 
- - Register as a developer. 
- - Copy the command from the email. It should look like this: `beame creds createDeveloper --developerFqdn ndfxfyerylk6uvra.v1.beameio.net --uid 1d138bfc-4a37-48e7-a60d-0190037fda5f` 
- - Run `beame servers startFirstBeameNode` it will print out to you something that looks like this: 
-`Server started on https://fdddr5ggsyzhk6m8.v1.r.p.edge.eu-central-1b-1.v1.p.beameio.net this is a publicly accessible address` 
+Open new terminal and run: 
+```
+brew tap homebrew/versions
+brew rm bash-completion
+brew install bash-completion2
+``` 
+Add following instructions to your .bashrc file (if you don't have .bash_profile in your Home directory, create one :) 
+```
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+    . $(brew --prefix)/share/bash-completion/bash_completion
+fi
+
+source /usr/local/lib/node_modules/beame-sdk/src/cli/completion.sh
+``` 
+Open new terminal and begin using beame-sdk cli with auto-completion. 
 
 ***
 ## Getting Started - Windows 
@@ -104,6 +124,21 @@ Perl is needed for building OpenSSL
 
 npm install -g beame-sdk
 ```
+
+***
+##Get started in minutes
+###Quick start by following instructions below
+####Install the Beame SDK by running 
+`npm install -g beame-sdk`
+####Register as a developer by submitting form at [https://registration.beameio.net/](#https://registration.beameio.net/)
+####Copy the command from the email 
+It should look like this: 
+`beame creds createDeveloper --developerFqdn ndfxfyerylk6uvra.v1.beameio.net --uid 1d138bfc-4a37-48e7-a60d-0190037fda5f` 
+####Run your first HTTPS server: 
+`beame servers startFirstBeameNode` 
+it will print out to you something that will look like: `Server started on https://fdddr5ggsyzhk6m8.v1.r.p.edge.eu-central-1b-1.v1.p.beameio.net this is a publicly accessible address` 
+
+ *Done*. You have your public HTTPS server running. Just copy-paste the address to a web browser. 
 ***
 ***
 #Beame.io Networking Solution Overview
