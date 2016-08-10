@@ -131,11 +131,11 @@ npm install -g beame-sdk
 Install the Beame SDK by running  
 `npm install -g beame-sdk`  
 Register as a developer, by submitting form at [https://registration.beameio.net/](#https://registration.beameio.net/)  
-Copy the command from the email, It should look like this:  
+Copy the command from reply email, It should look like:  
 `beame creds createDeveloper --developerFqdn ndfxfyerylk6uvra.v1.beameio.net --uid 1d138bfc-4a37-48e7-a60d-0190037fda5f`  
-Run your first HTTPS server:  
+Start your first HTTPS server by running:  
 `beame servers startFirstBeameNode`  
-it will print out to you something that will look like:  
+it should print to your console something like:  
 `Server started on https://fdddr5ggsyzhk6m8.v1.r.p.edge.eu-central-1b-1.v1.p.beameio.net this is a publicly accessible address`  
 *Done*. You have your public HTTPS server running. Just copy-paste the address to a web browser. 
 ***
