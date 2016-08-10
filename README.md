@@ -20,7 +20,7 @@ _The Beame SDK provides tools that allow you to create credentials to identify m
  - [Easy Installation Instructions](#easy-installation-instructions)
  - [Getting Started - Mac](#getting-started---mac)
  - [Getting Started - Windows](#getting-started---windows)
- - [Quicl Start](#get-started-in-minutes)
+ - [Quick Start](#get-started-in-minutes)
  - [High Level Architecture](#high-level-architecture)
  - [Beame Network Infrastructure](#beame-network-infrastructure)
  - [Custom Provisioning Workflow](#custom-provisioning-workflow)
