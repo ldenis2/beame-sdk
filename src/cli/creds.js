@@ -32,6 +32,7 @@ var developerServices   = new (require('../core/DeveloperServices'))();
 var atomServices        = new (require('../core/AtomServices'))();
 var edgeClientServices  = new (require('../core/EdgeClientServices'))();
 var localClientServices = new (require('../core/LocalClientServices'))();
+var remoteClientServices = new (require('../core/RemoteClientServices'))();
 
 var path   = require('path');
 var fs     = require('fs');
@@ -44,8 +45,12 @@ module.exports = {
 	//revoke,
 	shred,
 	createAtom,
+	updateAtomName,
+	updateAtomType,
+	importPKtoAtom,
 	createEdgeClient,
 	createLocalClient,
+	createRemoteClient,
 	createDeveloper,
 	exportCredentials,
 	importCredentials,
@@ -314,6 +319,42 @@ function createAtom(developerFqdn, atomName, callback) {
 createAtom.toText = lineToText;
 
 /**
+ * Update Atom Name
+ * @public
+ * @method Creds.updateAtomName
+ * @param {String} atomFqdn
+ * @param {String} atomName
+ * @param {Function} callback
+ */
+function updateAtomName(atomFqdn, atomName, callback) {
+	logger.info(`Updating atom ${atomFqdn} name to ${atomName} `);
+	atomServices.updateAtom(atomFqdn, atomName, callback);
+
+}
+updateAtomName.toText = lineToText;
+
+/**
+ * Update Atom Type
+ * @public
+ * @method Creds.updateAtomType
+ * @param {String} atomFqdn
+ * @param {String} atomType
+ * @param {Function} callback
+ */
+function updateAtomType(atomFqdn, atomType, callback) {
+	
+	if(config.AtomType[atomType] == null){
+		logger.fatal('Invalid atom type');
+	}
+	
+	logger.info(`Updating atom ${atomFqdn} to type ${atomType} `);
+	
+	atomServices.updateType(atomFqdn, config.AtomType[atomType], callback);
+
+}
+updateAtomType.toText = lineToText;
+
+/**
  * Create Edge Client for Atom
  * @public
  * @method Creds.createEdgeClient
@@ -338,6 +379,32 @@ createEdgeClient.toText = lineToText;
 function createLocalClient(atomFqdn, edgeClientFqdn, callback) {
 	logger.info(`Creating local client for Atom ${atomFqdn}`);
 	localClientServices.createLocalClients(atomFqdn, edgeClientFqdn, callback);
+}
+
+/**
+ * Create Edge Client under Remote Atom
+ * @public
+ * @method Creds.createRemoteClient
+ * @param {String|null} [authorizationFqdn]
+ * @param {String|null} [authenticationFqdn]
+ * @param {Function} callback
+ * */
+function createRemoteClient(authorizationFqdn, authenticationFqdn, callback) {
+	logger.info(`Creating client for remote Atom`);
+	remoteClientServices.createEdgeClient(callback, authorizationFqdn, authenticationFqdn);
+}
+
+/**
+ * Import PK to Authorization Server Atom
+ * @public
+ * @method Creds.importPKtoAtom
+ * @param {String} PKfilePath
+ * @param {String} authSrvFqdn
+ * @param {Function} callback
+ */
+function importPKtoAtom(PKfilePath, authSrvFqdn, callback) {
+	logger.info(`Importing PK for ${authSrvFqdn} from ${PKfilePath}`);
+	atomServices.importPKtoAtom(PKfilePath, authSrvFqdn, callback);
 }
 
 /**
@@ -438,20 +505,16 @@ function importNonBeameCredentials(fqdn) {
 
 		var conn = tls.connect(443, fqdn, {host: fqdn});
 
-		var onSecureConnected = function (err, data) {
+		var onSecureConnected = function () {
 			//noinspection JSUnresolvedFunction
 			var cert = conn.getPeerCertificate(true);
 			conn.end();
-			var buffer   = new Buffer(cert.raw, "hex");
-			var bas64Str = buffer.toString("base64");
+
+			var bas64Str   = new Buffer(cert.raw, "hex").toString("base64");
 
 			var certBody = "-----BEGIN CERTIFICATE-----\r\n";
 
-			for (let i = 0; i < bas64Str.length; i += 64) {
-
-				certBody += (bas64Str.substr(i, 64) + "\r\n");
-
-			}
+			certBody += bas64Str.match(/.{1,64}/g).join("\r\n") + "\r\n";
 
 			certBody += "-----END CERTIFICATE-----";
 

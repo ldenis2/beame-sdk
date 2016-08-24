@@ -65,7 +65,7 @@ var isRequestValid = function (hostname, atomDir, localClientDir, validateEdgeHo
  *
  * @param {String} atom_fqdn
  * @param {String} localIp
- * @param {String|null|undefined} edgeClientFqdn
+ * @param {String|null} [edgeClientFqdn]
  * @param {Function} callback
  * @this {LocalClientServices}
  */
@@ -208,34 +208,115 @@ var LocalClientServices = function () {
 
 /**
  *
- * @param {String} atomHostname
+ * @param {String} atom_fqdn
+ * @param {String|null} [edge_client_fqdn]
+ * @param {Array} local_ips
+ * @param {Function} callback
+ */
+LocalClientServices.prototype.registerLocalEdgeClients = function (atom_fqdn, edge_client_fqdn, local_ips, callback) {
+
+	//noinspection NodeModulesDependencies,ES6ModulesDependencies
+	logger.debug(`Call Register Local Edge Clients for ${JSON.stringify(local_ips)}`, {"atom": atom_fqdn});
+
+	if (_.isEmpty(atom_fqdn)) {
+		callback(logger.formatErrorMessage("Create Edge Client => Atom fqdn required", module_name), null);
+		return;
+	}
+
+	var errorMessage        = null,
+	    isSuccess           = true,
+	    totalAddressesFound = local_ips.length,
+	    host_names          = [],
+	    cnt                 = 0;
+
+
+	function onHostRegistered(error, payload) {
+
+		cnt++;
+
+		if (error) {
+			errorMessage += (error + ';');
+			isSuccess = false;
+		}
+		else {
+			host_names.push(payload);
+		}
+
+		if (cnt == totalAddressesFound) {
+			logger.debug(`Register Local Edge Clients returning ${host_names.length} hostnames`);
+			isSuccess ? callback(null, host_names) : callback(errorMessage, null);
+		}
+	}
+
+	local_ips.forEach(ip=> {
+			logger.debug(`Calling Local Edge Client registered for ${ip}`);
+
+			registerLocalClient(atom_fqdn, ip, edge_client_fqdn, onHostRegistered);
+		}
+	);
+
+	// for (var i = 0; i < totalAddressesFound; i++) {
+	//
+	// 	logger.debug(`Calling Local Edge Client registered for ${local_ips[i]}`);
+	//
+	// 	registerLocalClient(atom_fqdn, local_ips[i], edge_client_fqdn, function (error, payload) {
+	//
+	// 		cnt++;
+	//
+	// 		if (error) {
+	// 			errorMessage += (error + ';');
+	// 			isSuccess = false;
+	// 		}
+	// 		else {
+	// 			host_names.push(payload);
+	// 		}
+	//
+	// 		if (cnt == totalAddressesFound) {
+	// 			logger.debug(`Register Local Edge Clients returning ${host_names.length} hostnames`);
+	// 			isSuccess ? callback(null, host_names) : callback(errorMessage, null);
+	// 		}
+	// 	});
+	// }
+
+};
+
+/**
+ *
+ * @param {String} atom_fqdn
  * @param {String|null|undefined} [edgeClientFqdn]
  * @param {Function} callback
  */
-LocalClientServices.prototype.createLocalClients = function (atomHostname, edgeClientFqdn, callback) {
+LocalClientServices.prototype.createLocalClients = function (atom_fqdn, edgeClientFqdn, callback) {
 	var self = this;
 
 	logger.debug("Call Create Local Clients", {
-		"atom": atomHostname
+		"atom": atom_fqdn
 	});
 
-	if (_.isEmpty(atomHostname)) {
+	if (_.isEmpty(atom_fqdn)) {
 		callback(logger.formatErrorMessage("Create Local Client => Atom fqdn required", module_name), null);
 		return;
 	}
 
 	beameUtils.getLocalActiveInterfaces().then(function (addresses) {
-		var errorMessage = null, isSuccess = true;
-		for (var i = 0; i < addresses.length; i++) {
-			self.createLocalClient(atomHostname, addresses[i], edgeClientFqdn, function (error) {
+		var errorMessage        = null,
+		    isSuccess           = true,
+		    totalAddressesFound = addresses.length;
+
+
+		for (var i = 0; i < totalAddressesFound; i++) {
+			self.createLocalClient(atom_fqdn, addresses[i], edgeClientFqdn, _.bind(function (current, error) {
 				if (error) {
 					errorMessage += (error + ';');
 					isSuccess = false;
 				}
-			})
+				if (current + 1 == totalAddressesFound) {
+					isSuccess ? callback(null, addresses.length + ' local clients created') : callback(errorMessage, null);
+				}
+
+			}, null, i));
 		}
 
-		isSuccess ? callback(null, addresses.length + ' local clients created') : callback(errorMessage, null);
 	}, function (error) {
 		callbacks(error, null);
 	})
@@ -243,19 +324,19 @@ LocalClientServices.prototype.createLocalClients = function (atomHostname, edgeC
 
 /**
  *
- * @param {String} atomHostname
+ * @param {String} atom_fqdn
  * @param {String} localIp
- * @param {String|null|undefined} [edgeClientFqdn]
+ * @param {String|null} [edgeClientFqdn]
  * @param {Function} callback
  */
-LocalClientServices.prototype.createLocalClient = function (atomHostname, localIp, edgeClientFqdn, callback) {
+LocalClientServices.prototype.createLocalClient = function (atom_fqdn, localIp, edgeClientFqdn, callback) {
 
 	logger.debug("Call Create Local Client", {
-		"atom": atomHostname
+		"atom": atom_fqdn
 	});
 
 
-	if (_.isEmpty(atomHostname)) {
+	if (_.isEmpty(atom_fqdn)) {
 		callback(logger.formatErrorMessage("Create Local Client => Atom fqdn required", module_name), null);
 		return;
 	}
@@ -271,7 +352,7 @@ LocalClientServices.prototype.createLocalClient = function (atomHostname, localI
 			if (payload && payload.hostname) {
 				var hostname = payload.hostname;
 
-				getCert(atomHostname, hostname, function (error) {
+				getCert(atom_fqdn, hostname, function (error) {
 					if (callback) {
 						error ? callback(error, null) : callback(null, payload);
 					}
@@ -283,11 +364,12 @@ LocalClientServices.prototype.createLocalClient = function (atomHostname, localI
 
 		}
 		else {
+			logger.fatal(error);
 			callback && callback(error, null);
 		}
 	}
 
-	registerLocalClient(atomHostname, localIp, edgeClientFqdn, onLocalClientRegistered);
+	registerLocalClient(atom_fqdn, localIp, edgeClientFqdn, onLocalClientRegistered);
 
 };
 

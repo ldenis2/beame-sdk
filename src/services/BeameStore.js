@@ -42,20 +42,24 @@ function BeameStore() {
 
 	mkdirp.sync(config.localCertsDir);
 	mkdirp.sync(config.remoteCertsDir);
+	mkdirp.sync(config.remotePKsDir);
+
 	this.ensureFreshBeameStore();
 
 	this.listFunctions = [
 		{type: "developer", 'func': this.listCurrentDevelopers},
 		{type: "atom", 'func': this.listCurrentAtoms},
 		{type: "edgeclient", 'func': this.listCurrentEdges},
-		{type: "localclient", 'func': this.listCurrentLocalClients}
+		{type: "localclient", 'func': this.listCurrentLocalClients},
+		{type: "remoteclient", 'func': this.listCurrentRemoteClients}
 	];
 
 	this.searchFunctions = [
 		{type: "developer", 'func': this.searchDevelopers},
 		{type: "atom", 'func': this.searchAtoms},
 		{type: "edgeclient", 'func': this.searchEdge},
-		{type: "localclient", 'func': this.searchLocal}
+		{type: "localclient", 'func': this.searchLocal},
+		{type: "remoteclient", 'func': this.searchRemote}
 	];
 
 	beameStoreInstance = this;
@@ -71,23 +75,30 @@ BeameStore.prototype.jsearch = function (searchItem, level) {
 
 	switch (level) {
 		case "developer": {
-			queryString = sprintf("[?(hostname=='%s' )|| (name =='%s' )]." + DEVELOPER_DATA_STRUCT, searchItem, searchItem);
+			queryString = sprintf("[?((hostname=='%s') || (name =='%s' )) && (level=='developer')]." + DEVELOPER_DATA_STRUCT, searchItem, searchItem);
 			break;
 		}
 
 		case "atom": {
-			queryString = sprintf("[].atom[?(hostname=='%s') || (name=='%s')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
+			queryString = sprintf("[].atom[?((hostname=='%s') || (name=='%s')) && (level=='atom')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
 			break;
 		}
 
 		case "edgeclient": {
-			queryString = sprintf("[].atom[].edgeclient[?(hostname=='%s')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
+			queryString = sprintf("[].atom[].edgeclient[?(hostname=='%s') && (level=='edgeclient')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
 			break;
 		}
+		
 		case "localclient": {
-			queryString = sprintf("[].atom[].localclient[?(hostname=='%s')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
+			queryString = sprintf("[].atom[].localclient[?(hostname=='%s') && (level=='localclient')]." + CHILD_ENTITY_DATA_STRUCT + " | []", searchItem, searchItem);
 			break;
 		}
+		
+		case "remoteclient": {
+			queryString = sprintf("[?((hostname=='%s' ) && (level=='remoteclient'))]." + CHILD_ENTITY_DATA_STRUCT, searchItem, searchItem);
+			break;
+		}
+		
 		default: {
 			logger.fatal(`search invalid level ${level}`);
 		}
@@ -142,6 +153,17 @@ BeameStore.prototype.searchLocal = function (name) {
 	return returnDict;
 };
 
+BeameStore.prototype.searchRemote = function (name) {
+	var names      = this.jsearch(name, "remoteclient");
+	var returnDict = [];
+
+	_.each(names, _.bind(function (item) {
+		var qString = sprintf("[?hostname == '%s'] | []", item.hostname);
+		returnDict  = returnDict.concat(jmespath.search(this.beameStore, qString));
+	}, this));
+	return returnDict;
+};
+
 BeameStore.prototype.searchEdgeLocals = function (edgeClientFqdn) {
 
 	var queryString = sprintf("[].atom[].localclient[?(edge_client_fqdn=='%s')]." + CHILD_ENTITY_DATA_STRUCT + " | []", edgeClientFqdn);
@@ -178,7 +200,7 @@ BeameStore.prototype.searchItemAndParentFolderPath = function (fqdn) {
 };
 
 BeameStore.prototype.listCurrentDevelopers = function () {
-	return jmespath.search(this.beameStore, "[*]." + DEVELOPER_DATA_STRUCT + " | []");
+	return jmespath.search(this.beameStore, "[?(level=='developer')]." + DEVELOPER_DATA_STRUCT + " | []");
 };
 
 BeameStore.prototype.listCurrentAtoms = function () {
@@ -191,6 +213,10 @@ BeameStore.prototype.listCurrentEdges = function () {
 
 BeameStore.prototype.listCurrentLocalClients = function () {
 	return jmespath.search(this.beameStore, "[].atom[].localclient[*]." + CHILD_ENTITY_DATA_STRUCT + " | []");
+};
+
+BeameStore.prototype.listCurrentRemoteClients = function () {
+	return jmespath.search(this.beameStore, "[?(level=='remoteclient')]." + CHILD_ENTITY_DATA_STRUCT + " | []");
 };
 
 BeameStore.prototype.ensureFreshBeameStore = function () {
@@ -253,7 +279,7 @@ BeameStore.prototype.getRemoteCertificate = function (fqdn) {
 		certBody = fs.readFileSync(remoteCertPath);
 	} else {
 		var requestPath = config.CertEndpoint + '/' + fqdn + '/' + 'x509.pem';
-		logger.debug(`Getting certificate from ${requestPath}`);
+		logger.info(`Getting certificate from ${requestPath}`);
 		var response = request('GET', requestPath);
 		//noinspection JSUnresolvedFunction
 		certBody     = response.getBody() + "";
@@ -261,7 +287,7 @@ BeameStore.prototype.getRemoteCertificate = function (fqdn) {
 		//noinspection JSUnresolvedVariable
 		if (response.statusCode == 200) {
 			mkdirp(path.parse(remoteCertPath).dir);
-			logger.debug(`Saving file to ${remoteCertPath}`);
+			logger.info(`Saving cert to ${remoteCertPath}`);
 			fs.writeFileSync(remoteCertPath, certBody);
 		}
 	}
