@@ -7,8 +7,8 @@ const AuthServerEndPoint = "https://registration.beameio.net";
 
 const CertEndpoint = "https://beameio-net-certs.s3.amazonaws.com";
 
-const AuthorizationAtomFqdn = "hbdtatsa1eywxy7m.w3ndpqy0sxf9zpjy.v1.beameio.net";
-const AuthenticationAtomFqdn = "jaclmjhdflzibbm1.w3ndpqy0sxf9zpjy.v1.beameio.net";
+const AuthorizationAtomFqdn = "lnp9yket9076hdjg.tr86t6ghqvoxtj516ku6krz3y8f6fm4b.v1.beameio.net";
+const AuthenticationAtomFqdn = "cqot9e13pf6fo3ag.tr86t6ghqvoxtj516ku6krz3y8f6fm4b.v1.beameio.net";
 const InitFirstRemoteEdgeClient = true;
 const PinAtomPKbyDefault = false;
 /** @const {String} **/
