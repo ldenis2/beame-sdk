@@ -41,22 +41,23 @@ var SampleBeameServer = function (instanceHostname, projectName, requestListener
 		host = instanceHostname;
 	}
 
-	var edgeCert = beamestore.search(host);
+	//could be edge client or routable atom
+	var server_entity = beamestore.search(host);
 
-	if (edgeCert.length != 1) {
+	if (server_entity.length != 1) {
 		logger.error("Could not find certificate for " + host);
 		return;
 	}
-	edgeCert            = edgeCert[0];
-	/** @type {ServerCertificates} **/
-	var edgeClientCerts = {
-		key:  edgeCert.PRIVATE_KEY,
-		cert: edgeCert.P7B,
-		ca:   edgeCert.CA
+	server_entity            = server_entity[0];
+	/** @type {typeof ServerCertificates} **/
+	var serverCerts = {
+		key:  server_entity.PRIVATE_KEY,
+		cert: server_entity.P7B,
+		ca:   server_entity.CA
 	};
 
 	var srv = SNIServer.get(config.SNIServerPort, requestListener);
-	srv.addFqdn(host, edgeClientCerts);
+	srv.addFqdn(host, serverCerts);
 
 	var edgeLocals = beamestore.searchEdgeLocals(host);
 	edgeLocals.forEach(edgeLocal => {
@@ -76,11 +77,21 @@ var SampleBeameServer = function (instanceHostname, projectName, requestListener
 		}
 
 		//noinspection JSUnresolvedVariable
-		if (edgeCert.hostname.indexOf(".r.") > 0) {
-			new ProxyClient("HTTPS", edgeCert.hostname,
-				edgeCert.edgeHostname, 'localhost',
+		if (server_entity.hostname.indexOf(".r.") > 0 || server_entity.level === "atom") {
+
+			if (!server_entity.edgeHostname) {
+				logger.fatal('Edge server hostname required');
+			}
+
+			if (!server_entity.hostname) {
+				logger.fatal('Server hostname required');
+			}
+
+			//noinspection JSUnresolvedVariable
+			new ProxyClient("HTTPS", server_entity.hostname,
+				server_entity.edgeHostname, 'localhost',
 				srv.getPort(), {onLocalServerCreated: onLocalServerCreated},
-				null, edgeClientCerts);
+				null, serverCerts);
 		}
 		else {
 			onLocalServerCreated(null);
