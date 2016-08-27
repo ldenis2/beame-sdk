@@ -49,7 +49,7 @@ var SampleBeameServer = function (instanceHostname, projectName, requestListener
 		return;
 	}
 	server_entity            = server_entity[0];
-	/** @type {typeof ServerCertificates} **/
+	/** @type {ServerCertificates} **/
 	var serverCerts = {
 		key:  server_entity.PRIVATE_KEY,
 		cert: server_entity.P7B,
