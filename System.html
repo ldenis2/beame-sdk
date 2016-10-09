@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Namespace: BaseHttpsServer</title>
+	<title>Documentation Namespace: System</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,14 +33,21 @@
 			<li class="dropdown">
 				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="BaseHttpsServer.html">BaseHttpsServer</a></li><li><a href="Creds.html">Creds</a></li><li><a href="Crypto.html">Crypto</a></li>
+					<li><a href="Creds.html">Creds</a></li><li><a href="Crypto.html">Crypto</a></li><li><a href="Servers.html">Servers</a></li><li><a href="System.html">System</a></li><li><a href="Token.html">Token</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="BeameStoreV2.html">BeameStoreV2</a></li><li><a href="Credential.html">Credential</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#signWithKey">signWithKey</a></li>
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -70,13 +77,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Namespace: BaseHttpsServer</h1>
+	<h1 class="page-title">Namespace: System</h1>
 <section>
 
 <header>
     
         <h2>
-        BaseHttpsServer
+        System
         </h2>
         
     
@@ -151,7 +158,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".SampleBeameServer"><span class="type-signature">&lt;static> </span>SampleBeameServer( [instanceHostname] [, projectName], requestListener, hostOnlineCallback)</h4>
+    <h4 class="name" id=".checkVersion"><span class="type-signature">&lt;static> </span>checkVersion()</h4>
     
     
 </dt>
@@ -159,7 +166,7 @@
 
     
     <div class="description">
-        Starts sample HTTPS server. Either instanceHostname or projectName must be specified.
+        Check current SDK version
     </div>
     
 
@@ -168,172 +175,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>instanceHostname</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">fqdn of the HTTPS server. You must have private key of the entity.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>projectName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">name of environment variable to get fqdn from.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>requestListener</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">requestListener parameter for https.createServer(), express application for example</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>hostOnlineCallback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -387,6 +228,26 @@
     
 
     
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#VersionStatus">VersionStatus</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -439,7 +300,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-08-24T18:38:46+03:00
+		on 2016-10-09T16:17:30+03:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

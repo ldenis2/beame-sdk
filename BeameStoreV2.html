@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Global</title>
+	<title>Documentation Namespace: BeameStoreV2</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -77,13 +77,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Global</h1>
+	<h1 class="page-title">Namespace: BeameStoreV2</h1>
 <section>
 
 <header>
     
         <h2>
-        
+        BeameStoreV2
         </h2>
         
     
@@ -152,43 +152,34 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
+        <h3 class="subsection-title">Methods</h3>
 
         <dl>
-                
+            
 <hr>
-<dt class="name" id="RemoteCreds">
-    <h4>RemoteCreds</h4>
-
+<dt>
+    <h4 class="name" id=".getCredential"><span class="type-signature">&lt;static> </span>getCredential(fqdn)</h4>
+    
     
 </dt>
 <dd>
+
+    
+    <div class="description">
+        Return credential from local Beame store
+    </div>
     
 
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
 
-
-
-            </li>
-        </ul>
     
 
     
-<dl class="details">
     
+        <h5>Parameters:</h5>
+        
 
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -210,31 +201,7 @@
 
         <tr>
             
-                <td class="name"><code>metadata</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>x509</code></td>
+                <td class="name"><code>fqdn</code></td>
             
 
             <td class="type">
@@ -257,86 +224,106 @@
     
     </tbody>
 </table>
-</dl>
 
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-            
-                
-<hr>
-<dt class="name" id="S3Metadata">
-    <h4>S3Metadata</h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        S3 public metadata.json structure, should be compliant to backend EntityMetadata Class
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
     
 
     
 <dl class="details">
     
 
-    <h5 class="subsection-title">Properties:</h5>
+	
 
-    <dl>
+	
 
-<table class="props table table-striped">
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Credential.html">Credential</a></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".list"><span class="type-signature">&lt;static> </span>list(regex, options)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
     <thead>
     <tr>
         
@@ -358,7 +345,7 @@
 
         <tr>
             
-                <td class="name"><code>level</code></td>
+                <td class="name"><code>regex</code></td>
             
 
             <td class="type">
@@ -378,6 +365,150 @@
             <td class="description last"></td>
         </tr>
 
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".shredCredentials"><span class="type-signature">&lt;static> </span>shredCredentials(fqdn, callback)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
@@ -406,19 +537,10 @@
 
         <tr>
             
-                <td class="name"><code>parent_fqdn</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
-
-
-
             
             </td>
 
@@ -432,182 +554,13 @@
     
     </tbody>
 </table>
-</dl>
 
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-            
-                
-<hr>
-<dt class="name" id="SignatureToken">
-    <h4>SignatureToken</h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        signature token structure , used as AuthorizationToken in Provision
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
     
 
     
 <dl class="details">
     
 
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>signedData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>signedBy</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>signature</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</dl>
-
-    
-
 	
 
 	
@@ -643,353 +596,25 @@
 	
 </dl>
 
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
 
-            
-                
-<hr>
-<dt class="name" id="SignedData">
-    <h4>SignedData</h4>
-
-    
-</dt>
-<dd>
+        </dl>
     
 
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>created_at</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>valid_till</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-|
-
-<span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</dl>
-
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-            
-                
-<hr>
-<dt class="name" id="VersionStatus">
-    <h4>VersionStatus</h4>
-
-    
-</dt>
-<dd>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>installed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">=> installed version</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>available</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">=> latest available version</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>update-available</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</dl>
-
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-            </dl>
     
 
     

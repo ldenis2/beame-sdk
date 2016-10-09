@@ -33,14 +33,21 @@
 			<li class="dropdown">
 				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="BaseHttpsServer.html">BaseHttpsServer</a></li><li><a href="Creds.html">Creds</a></li><li><a href="Crypto.html">Crypto</a></li>
+					<li><a href="Creds.html">Creds</a></li><li><a href="Crypto.html">Crypto</a></li><li><a href="Servers.html">Servers</a></li><li><a href="System.html">System</a></li><li><a href="Token.html">Token</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="BeameStoreV2.html">BeameStoreV2</a></li><li><a href="Credential.html">Credential</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#signWithKey">signWithKey</a></li>
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -151,7 +158,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".createAtom"><span class="type-signature">&lt;static> </span>createAtom(developerFqdn, atomName, callback)</h4>
+    <h4 class="name" id=".checkSignature"><span class="type-signature">&lt;static> </span>checkSignature(signedData, callback)</h4>
     
     
 </dt>
@@ -159,7 +166,7 @@
 
     
     <div class="description">
-        Create Atom for Developer
+        Checks signature.
     </div>
     
 
@@ -194,13 +201,13 @@
 
         <tr>
             
-                <td class="name"><code>developerFqdn</code></td>
+                <td class="name"><code>signedData</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><a href="global.html#SignatureToken">SignatureToken</a></span>
 
 
 
@@ -211,31 +218,7 @@
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>atomName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last">=> based64 encoded Signature Token</td>
         </tr>
 
     
@@ -327,7 +310,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".createDeveloper"><span class="type-signature">&lt;static> </span>createDeveloper(developerFqdn, uid, callback)</h4>
+    <h4 class="name" id=".decrypt"><span class="type-signature">&lt;static> </span>decrypt(encryptedData)</h4>
     
     
 </dt>
@@ -335,7 +318,7 @@
 
     
     <div class="description">
-        Create developer from registration email credentials
+        Decrypts given data. You must have the private key of the entity that the data was encrypted for.
     </div>
     
 
@@ -370,13 +353,13 @@
 
         <tr>
             
-                <td class="name"><code>developerFqdn</code></td>
+                <td class="name"><code>encryptedData</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">EncryptedMessage</span>
 
 
 
@@ -387,55 +370,7 @@
 
             
 
-            <td class="description last">developer hostname(fqdn)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>uid</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">developer Uid</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last">data to decrypt</td>
         </tr>
 
     
@@ -503,7 +438,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".createEdgeClient"><span class="type-signature">&lt;static> </span>createEdgeClient(atomFqdn, callback)</h4>
+    <h4 class="name" id=".encrypt"><span class="type-signature">&lt;static> </span>encrypt(data, targetFqdn [, signingFqdn], callback)</h4>
     
     
 </dt>
@@ -511,335 +446,7 @@
 
     
     <div class="description">
-        Create Edge Client for Atom
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>atomFqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".createLocalClient"><span class="type-signature">&lt;static> </span>createLocalClient(atomFqdn, edgeClientFqdn, callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Create Local Client under Edge Client
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>atomFqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>edgeClientFqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".createRemoteClient"><span class="type-signature">&lt;static> </span>createRemoteClient( [authorizationFqdn] [, authenticationFqdn], callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Create Edge Client under Remote Atom
+        Encrypts given data for the given entity. Only owner of that entity's private key can open it. You must have the public key of the fqdn to perform the operation.
     </div>
     
 
@@ -876,16 +483,13 @@
 
         <tr>
             
-                <td class="name"><code>authorizationFqdn</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
 
 
 
@@ -894,8 +498,6 @@
 
             
                 <td class="attributes">
-                
-                    &lt;optional><br>
                 
 
                 
@@ -906,14 +508,46 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">data to encrypt</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>authenticationFqdn</code></td>
+                <td class="name"><code>targetFqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">entity to encrypt for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>signingFqdn</code></td>
             
 
             <td class="type">
@@ -1043,7 +677,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".exportCredentials"><span class="type-signature">&lt;static> </span>exportCredentials(fqdn, targetFqdn, file)</h4>
+    <h4 class="name" id=".exportCredentials"><span class="type-signature">&lt;static> </span>exportCredentials(fqdn, targetFqdn [, signingFqdn], file)</h4>
     
     
 </dt>
@@ -1052,6 +686,741 @@
     
     <div class="description">
         Export credentials from source fqdn to target fqdn
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">fqdn of credentials to export</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>targetFqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">fqdn of the entity to encrypt for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>signingFqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">path to file</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".getCreds"><span class="type-signature">&lt;static> </span>getCreds( [token] [, authSrvFqdn] [, fqdn] [, name] [, email], callback)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get credentials with Auth Token or for existing local Credential by fqdn
+AuthToken(token) or Local Credential(fqdn) required
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>authSrvFqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".importCredentials"><span class="type-signature">&lt;static> </span>importCredentials(file)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Import credentials exported with exportCredentials method
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">path to file with encrypted credentials</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".importLiveCredentials"><span class="type-signature">&lt;static> </span>importLiveCredentials(fqdn)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        XXX TODO: use URL not FQDN as parameter
+Import non Beame credentials by fqdn and save to BeameStore
     </div>
     
 
@@ -1103,14 +1472,281 @@
 
             
 
-            <td class="description last">fqdn of credentials to export</td>
+            <td class="description last"></td>
         </tr>
 
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".list"><span class="type-signature">&lt;static> </span>list( [regex])</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Return list of credentials
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>targetFqdn</code></td>
+                <td class="name"><code>regex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">entity fqdn</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;<a href="Credential.html">Credential</a>></span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".show"><span class="type-signature">&lt;static> </span>show(fqdn)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Return list of certificate properties
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fqdn</code></td>
             
 
             <td class="type">
@@ -1127,31 +1763,7 @@
 
             
 
-            <td class="description last">fqdn of the entity to encrypt for</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>file</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">path to file</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -1239,7 +1851,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".importCredentials"><span class="type-signature">&lt;static> </span>importCredentials( [data] [, file])</h4>
+    <h4 class="name" id=".shred"><span class="type-signature">&lt;static> </span>shred(fqdn)</h4>
     
     
 </dt>
@@ -1247,7 +1859,7 @@
 
     
     <div class="description">
-        Import credentials exported with exportCredentials method
+        Delete local credential folder
     </div>
     
 
@@ -1270,7 +1882,133 @@
         <th>Type</th>
 
         
-        <th>Argument</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fqdn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id=".sign"><span class="type-signature">&lt;static> </span>sign(data, fqdn)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Signs given data. You must have private key of the fqdn.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
         
 
         
@@ -1291,9 +2029,6 @@
             
                 
 <span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
 
 
 
@@ -1301,36 +2036,23 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">encrypted credentials in string format</td>
+            <td class="description last">data to sign</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>file</code></td>
+                <td class="name"><code>fqdn</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">String</span>
-|
-
-<span class="param-type">null</span>
 
 
 
@@ -1338,20 +2060,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">path to file with encrypted credentials</td>
+            <td class="description last">sign as this entity</td>
         </tr>
 
     
@@ -1422,7 +2134,10 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
 
 
 
@@ -1439,320 +2154,12 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".importNonBeameCredentials"><span class="type-signature">&lt;static> </span>importNonBeameCredentials(fqdn)</h4>
+    <h4 class="name" id=".updateMetadata"><span class="type-signature">&lt;static> </span>updateMetadata(fqdn [, name] [, email], callback)</h4>
     
     
 </dt>
 <dd>
 
-    
-    <div class="description">
-        Import non Beame credentials by fqdn and save to to ./beame/v{}/remote
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>fqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".importPKtoAtom"><span class="type-signature">&lt;static> </span>importPKtoAtom(PKfilePath, authSrvFqdn, callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Import PK to Authorization Server Atom
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>PKfilePath</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>authSrvFqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".list"><span class="type-signature">&lt;static> </span>list( [type] [, fqdn])</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Return list of credentials
-    </div>
     
 
     
@@ -1788,25 +2195,13 @@
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>fqdn</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">'developer'</span>
-|
-
-<span class="param-type">'atom'</span>
-|
-
-<span class="param-type">'edgeclient'</span>
-|
-
-<span class="param-type">'localclient'</span>
-|
-
-<span class="param-type">null</span>
+<span class="param-type">String</span>
 
 
 
@@ -1815,8 +2210,6 @@
 
             
                 <td class="attributes">
-                
-                    &lt;optional><br>
                 
 
                 
@@ -1827,14 +2220,14 @@
 
             
 
-            <td class="description last">creds type</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>fqdn</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -1864,186 +2257,14 @@
 
             
 
-            <td class="description last">entity fqdn</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#CredsListItem">CredsListItem</a>></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".show"><span class="type-signature">&lt;static> </span>show( [type] [, fqdn])</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Return list of certificate properties
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">'developer'</span>
-|
-
-<span class="param-type">'atom'</span>
-|
-
-<span class="param-type">'edgeclient'</span>
-|
-
-<span class="param-type">'localclient'</span>
-|
-
-<span class="param-type">null</span>
-
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">creds type</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>fqdn</code></td>
+                <td class="name"><code>email</code></td>
             
 
             <td class="type">
@@ -2069,154 +2290,6 @@
 
                 
                 </td>
-            
-
-            
-
-            <td class="description last">entity fqdn</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#CertListItem">CertListItem</a>></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".stats"><span class="type-signature">&lt;static> </span>stats(fqdn, callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Return stats by entity fqdn
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>fqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
             
 
             
@@ -2242,357 +2315,13 @@
             </td>
 
             
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".updateAtomName"><span class="type-signature">&lt;static> </span>updateAtomName(atomFqdn, atomName, callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Update Atom Name
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>atomFqdn</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">String</span>
 
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>atomName</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">String</span>
 
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".updateAtomType"><span class="type-signature">&lt;static> </span>updateAtomType(atomFqdn, atomType, callback)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Update Atom Type
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>atomFqdn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>atomType</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
+                </td>
             
 
             
@@ -2709,7 +2438,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-08-24T18:38:46+03:00
+		on 2016-10-09T16:17:30+03:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
