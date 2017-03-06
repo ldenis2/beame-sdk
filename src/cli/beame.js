@@ -16,6 +16,10 @@ let commands = {};
 	commands[cmdName] = require('./' + cmdName + '.js');
 });
 
+const BeameCli = require('beame-cli');
+const cli = new BeameCli(__dirname, ['creds', 'token', 'crypto', 'servers', 'system']);
+cli.run();
+
 const parametersSchema = {
 	'data':               {required: true},
 	'developerEmail':     {required: true},
@@ -92,6 +96,7 @@ function getParamsNames(fun) {
 }
 
 function main() {
+
 	let cmdName    = argv._[0],
 	    subCmdName = argv._[1],
 	    cmd        = commands[cmdName];
@@ -269,4 +274,4 @@ if (argv._[0] == 'complete') {
 	process.exit(1);
 }
 
-main();
+// main();
