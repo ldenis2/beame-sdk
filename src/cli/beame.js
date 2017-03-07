@@ -16,10 +16,6 @@ let commands = {};
 	commands[cmdName] = require('./' + cmdName + '.js');
 });
 
-const BeameCli = require('beame-cli');
-const cli = new BeameCli(__dirname, ['creds', 'token', 'crypto', 'servers', 'system']);
-cli.run();
-
 const parametersSchema = {
 	'data':               {required: true},
 	'developerEmail':     {required: true},
@@ -66,6 +62,12 @@ const parametersSchema = {
 	'value':              {required: false},
 	'useBestProxy':       {required: false}
 };
+
+const BeameCli = require('beame-cli');
+const cli = new BeameCli(__dirname, ['creds', 'token', 'crypto', 'servers', 'system']);
+cli.setGlobalSchema(parametersSchema);
+cli.run();
+
 
 // http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
 function InvalidArgv(message) {

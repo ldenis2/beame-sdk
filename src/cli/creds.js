@@ -126,6 +126,14 @@ function getCreds(regToken, token, authSrvFqdn, fqdn, name, email, callback) {
 
 	CommonUtils.promise2callback(promise, callback);
 }
+getCreds.params = {
+	'regToken':           {required: false, base64: true},
+	'token':              {required: false, base64: true},
+	'authSrvFqdn':        {required: false},
+	'fqdn':               {required: false},
+	'name':               {required: false},
+	'email':              {required: false},
+}
 getCreds.toText = _lineToText;
 
 /**
@@ -141,12 +149,6 @@ getCreds.toText = _lineToText;
  * @param {Function} callback
  */
 function getRegToken(fqdn, name, email, userId, ttl, src, serviceName, serviceId, matchingFqdn, callback) {
-	if (!fqdn) {
-		logger.fatal(`Fqdn required`);
-		return;
-	}
-
-
 	function _get() {
 		return new Promise((resolve, reject) => {
 
@@ -159,6 +161,17 @@ function getRegToken(fqdn, name, email, userId, ttl, src, serviceName, serviceId
 
 	CommonUtils.promise2callback(_get(), callback);
 
+}
+getRegToken.params = {
+	'fqdn':               {required: true},
+	'name':               {required: false},
+	'email':              {required: false},
+	'userId':             {required: false},
+	'ttl':                {required: false, default: 300},
+	'src':                {required: false},
+	'serviceName':        {required: false},
+	'serviceId':          {required: false},
+	'matchingFqdn':       {required: false},
 }
 getRegToken.toText = x => x;
 
@@ -176,6 +189,11 @@ function updateMetadata(fqdn, name, email, callback) {
 
 	CommonUtils.promise2callback(cred.updateMetadata(fqdn, name, email), callback);
 }
+updateMetadata.params = {
+	'fqdn':               {required: true},
+	'name':               {required: false},
+	'email':              {required: false},
+}
 updateMetadata.toText = _lineToText;
 
 /**
@@ -189,6 +207,10 @@ function revokeCert(signerFqdn,fqdn, callback) {
 	let cred = new Credential(new BeameStore());
 
 	CommonUtils.promise2callback(cred.revokeCert(signerFqdn,fqdn), callback);
+}
+revokeCert.params = {
+	'signerFqdn':         {required: true},
+	'fqdn':               {required: true},
 }
 revokeCert.toText = _lineToText;
 
@@ -226,6 +248,10 @@ function renewCert(signerAuthToken,fqdn, callback) {
 
 	CommonUtils.promise2callback(cred.renewCert(authToken,fqdn).then(returnOK), callback);
 }
+renewCert.params = {
+	'signerAuthToken':    {required: false, base64: true},
+	'fqdn':               {required: true},
+}
 renewCert.toText = _lineToText;
 //endregion
 
@@ -247,6 +273,7 @@ function show(fqdn) {
 	return creds.metadata;
 }
 
+show.params = {'fqdn': {required: true}};
 show.toText = _lineToText;
 
 /**
@@ -260,6 +287,8 @@ function list(regex) {
 	logger.debug(`list  ${regex}`);
 	return _listCreds(regex || '.');
 }
+
+list.params = {'regex': {required: false}};
 
 list.toText = function (creds) {
 	let table = new Table({
@@ -287,6 +316,7 @@ function shred(fqdn) {
 		return 'fqdn has been erased from store';
 	});
 }
+shred.params = {'fqdn': {required: true}}
 shred.toText = _lineToText;
 
 //endregion
@@ -304,22 +334,10 @@ shred.toText = _lineToText;
  */
 function exportCredentials(fqdn, targetFqdn, signingFqdn, file, callback) {
 
-	if (!fqdn) {
-		logger.fatal(`fqdn required`);
-	}
-
-	if (!targetFqdn) {
-		logger.fatal(`target fqdn required`);
-	}
-
 	if (typeof file == "number") {
 		// CLI arguments parser converts to number automatically.
 		// Reversing this conversion.
 		file = file.toString();
-	}
-
-	if (!file) {
-		logger.fatal(`path to file for saving credentials required`);
 	}
 
 	const store = new BeameStore();
@@ -346,6 +364,11 @@ function exportCredentials(fqdn, targetFqdn, signingFqdn, file, callback) {
 	} catch (e) {
 		callback(e, null);
 	}
+}
+exportCredentials.params = {
+	'fqdn':               {required: true},
+	'targetFqdn':         {required: true},
+	'file':               {required: true},
 }
 
 /**
@@ -424,8 +447,9 @@ function importCredentials(file, callback) {
 	catch (error) {
 		callback(error, null);
 	}
-
-
+}
+importCredentials.params = {
+	'file':               {required: true},
 }
 
 /**
@@ -437,6 +461,9 @@ function importCredentials(file, callback) {
  */
 function importLiveCredentials(fqdn) {
 	Credential.importLiveCredentials(fqdn);
+}
+importLiveCredentials.params = {
+	'fqdn':               {required: true},
 }
 //endregion
 
