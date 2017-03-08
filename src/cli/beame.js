@@ -63,12 +63,6 @@ const parametersSchema = {
 	'useBestProxy':       {required: false}
 };
 
-const BeameCli = require('beame-cli');
-const cli = new BeameCli(__dirname, ['creds', 'token', 'crypto', 'servers', 'system']);
-cli.setGlobalSchema(parametersSchema);
-cli.run();
-
-
 // http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
 function InvalidArgv(message) {
 	this.name    = 'InvalidArgv';
@@ -98,7 +92,6 @@ function getParamsNames(fun) {
 }
 
 function main() {
-
 	let cmdName    = argv._[0],
 	    subCmdName = argv._[1],
 	    cmd        = commands[cmdName];
@@ -276,4 +269,4 @@ if (argv._[0] == 'complete') {
 	process.exit(1);
 }
 
-// main();
+main();
