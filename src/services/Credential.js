@@ -168,7 +168,11 @@ class Credential {
 		 * @member {Object}
 		 */
 		this.certData = {};
-
+		
+		/**
+		 * This object is required due to async certificate load operation with latest node and pem modules
+		*/
+		this._initPromise = null;
 	}
 
 	//region Init functions
@@ -285,36 +289,45 @@ class Credential {
 	/**
 	 * @ignore
 	 */
-	initCryptoKeys() {
+	async initCryptoKeys() {
+		var ret = Promise.resolve(this);
 		if (this.hasKey("X509")) {
-			pem.config({sync: true});
-			pem.readCertificateInfo(this.getKey("X509") + "", (err, certData) => {
+			const readCertInfo = (resolve, reject) => pem.readCertificateInfo(this.getKey("X509") + "", (err, certData) => {
 				if (this.fqdn && this.fqdn !== certData.commonName) {
-					throw new Error(`Credentialing mismatch ${this.metadata} the common name in x509 does not match the metadata`);
+					return reject(new Error(`Credentialing mismatch ${this.metadata} the common name in x509 does not match the metadata`));
 				}
+				
 				this.certData = err ? null : certData;
+				// console.log(`initCryptoKeys.readCertificateInfo - data read certData=${JSON.stringify(certData)}`)
 				this.setExpirationStatus();
 				//noinspection JSUnresolvedVariable
 				this.fqdn               = this.extractCommonName();
 				this.beameStoreServices = new BeameStoreDataServices(this.fqdn, this.store);
+			
 				this._updateCertData();
+				return resolve(this);
 			});
-
-			pem.getPublicKey(this.getKey("X509") + "", (err, publicKey) => {
-				this.publicKeyStr     = publicKey.publicKey;
-				this.publicKeyNodeRsa = new NodeRsa();
-				try {
-					this.publicKeyNodeRsa.importKey(this.publicKeyStr, "pkcs8-public-pem");
-				} catch (e) {
-					console.log(`could not import services ${this.publicKeyStr}`)
-				}
-			});
-			pem.config({sync: false});
+			ret = ret.then(() => new Promise(readCertInfo));
+			const readPublicKey = (resolve, reject) => pem.getPublicKey(this.getKey("X509") + "", (err, publicKey) => {
+					this.publicKeyStr     = publicKey.publicKey;
+					this.publicKeyNodeRsa = new NodeRsa();
+					try {
+						this.publicKeyNodeRsa.importKey(this.publicKeyStr, "pkcs8-public-pem");						
+					} catch (e) {
+						console.log(`could not import services ${this.publicKeyStr}`)
+						reject(new Error(`could not import services ${this.publicKeyStr}`))
+					}
+					return resolve(this);
+				});
+			ret = ret.then(()=> new Promise(readPublicKey))
 		}
 		if (this.hasKey("PRIVATE_KEY")) {
 			this.privateKeyNodeRsa = new NodeRsa();
 			this.privateKeyNodeRsa.importKey(this.getKey("PRIVATE_KEY") + " ", "private");
 		}
+		
+		this._initPromise = ret;
+		return ret;		
 	}
 
 	/**
@@ -2653,21 +2666,21 @@ class Credential {
 	}
 
 	checkValidity() {
-		return new Promise((resolve, reject) => {
+		const check = () => {
 			const validity = this.certData.validity;
 			logger.debug(`checkValidity: fqdn, start, end', ${this.fqdn}, ${validity.start}, ${validity.end}`);
 			// validity.end = 0;
 			const now = Date.now();
 			if (validity.start - Config.defaultAllowedClockDiff > now + timeFuzz) {
-				reject(new CertificateValidityError(`Certificate ${this.fqdn} is not valid yet`, CertValidationError.InFuture));
-				return;
+				throw new CertificateValidityError(`Certificate ${this.fqdn} is not valid yet`, CertValidationError.InFuture);
 			}
 			if (validity.end + Config.defaultAllowedClockDiff < now - timeFuzz) {
-				reject(new CertificateValidityError(`Certificate ${this.fqdn} has expired`, CertValidationError.Expired));
-				return;
+				throw new CertificateValidityError(`Certificate ${this.fqdn} has expired`, CertValidationError.Expired);
 			}
-			resolve(this);
-		});
+			return this;
+		}
+		
+		return this._initPromise.then(check);
 	}
 
 	hasLocalParentAtAnyLevel(fqdn) {
