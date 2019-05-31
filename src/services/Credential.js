@@ -299,11 +299,11 @@ class Credential {
 					this.publicKeyNodeRsa = new NodeRsa();
 					try {
 						this.publicKeyNodeRsa.importKey(this.publicKeyStr, "pkcs8-public-pem");						
+						return resolve(this);
 					} catch (e) {
 						console.log(`could not import services ${this.publicKeyStr}`)
 						reject(new Error(`could not import services ${this.publicKeyStr}`))
 					}
-					return resolve(this);
 				});
 			ret = ret.then(()=> new Promise(readPublicKey))
 		}
