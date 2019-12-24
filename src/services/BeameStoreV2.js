@@ -81,11 +81,11 @@ class BeameStoreV2 {
 
 			return new Promise(resolve => {
 					let remoteCred = new Credential(this);
-					remoteCred.initFromX509(data.x509, data.metadata);
-					remoteCred.initFromData(fqdn);
-					this.addCredential(remoteCred);
-					remoteCred.saveCredentialsObject();
-					resolve(remoteCred);
+					remoteCred.initFromX509(data.x509, data.metadata)
+					.then(() =>	remoteCred.initFromData(fqdn))
+					.then(() => this.addCredential(remoteCred))
+					.then(() => remoteCred.saveCredentialsObject())
+					.then(() => resolve(remoteCred));
 				}
 			);
 		};
@@ -500,13 +500,14 @@ class BeameStoreV2 {
 						 */
 						data => {
 							let remoteCred = new Credential(this);
-							remoteCred.initFromX509(data.x509, data.metadata);
-							remoteCred.initFromData(fqdn);
-							this.addCredential(remoteCred);
+							remoteCred.initFromX509(data.x509, data.metadata)
+							.then(() => {remoteCred.initFromData(fqdn);
+								this.addCredential(remoteCred);
 
-							if (remoteCred.checkSignature(token)) {
-								loadCred(data.metadata);
-							}
+								if (remoteCred.checkSignature(token)) {
+									loadCred(data.metadata);
+								}
+							});
 
 						}).catch(reject);
 				}
