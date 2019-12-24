@@ -322,42 +322,49 @@ class Credential {
 	 * @param metadata
 	 */
 	initFromX509(x509, metadata) {
-		pem.config({sync: true});
+		var that = this; 
+		return new Promise((resolve, reject) =>
 		pem.readCertificateInfo(x509, (err, certData) => {
 			if (!err) {
-				this.certData = certData;
-				this.setExpirationStatus();
-				this.beameStoreServices = new BeameStoreDataServices(certData.commonName, this.store);
-				this.metadata.fqdn      = certData.commonName;
+				that.certData = certData;
+				that.setExpirationStatus();
+				that.beameStoreServices = new BeameStoreDataServices(certData.commonName, this.store);
+				that.metadata.fqdn      = certData.commonName;
 				//noinspection JSUnresolvedVariable
-				this.fqdn               = certData.commonName;
-				this.beameStoreServices.writeObject(Config.CertFileNames.X509, x509);
-				this._updateCertData();
-			}
+				that.fqdn               = certData.commonName;
+				that.beameStoreServices.writeObject(Config.CertFileNames.X509, x509);
+				that._updateCertData();
+				resolve(that);
+				}
 			else {
+				reject(err);
 				throw Error(err);
 			}
 
-		});
-		pem.getPublicKey(x509, (err, publicKey) => {
+		}))
+		.then((cred)=>
+		 new Promise((resolve, reject) => pem.getPublicKey(x509, (err, publicKey) => {
 			if (!err) {
-				this.publicKeyStr     = publicKey.publicKey;
-				this.publicKeyNodeRsa = new NodeRsa();
+				cred.publicKeyStr     = publicKey.publicKey;
+				cred.publicKeyNodeRsa = new NodeRsa();
 				try {
-					this.publicKeyNodeRsa.importKey(this.publicKeyStr, "pkcs8-public-pem");
+					cred.publicKeyNodeRsa.importKey(cred.publicKeyStr, "pkcs8-public-pem");
 				} catch (e) {
 					console.log(`Error could not import ${this.publicKeyStr}`);
 				}
+				
+				resolve(cred)
 			}
 			else {
-				throw Error(err);
+				reject(err);
 			}
-
-		});
-		this.parseMetadata(metadata);
-		this.beameStoreServices.setFolder(this);
-		this.beameStoreServices.writeMetadataSync(this.metadata);
-		pem.config({sync: false});
+		})))
+		.then((cred) => {
+		cred.parseMetadata(metadata);
+		cred.beameStoreServices.setFolder(cred);
+		cred.beameStoreServices.writeMetadataSync(cred.metadata);
+		return cred;
+		});	
 	}
 
 	/**
